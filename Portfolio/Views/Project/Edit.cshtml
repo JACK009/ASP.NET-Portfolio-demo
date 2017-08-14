@@ -1,0 +1,127 @@
+﻿@using Portfolio.Models
+@model Portfolio.Models.ProjectModel
+
+@{
+    ViewBag.Title = "Create";
+    Model.Content = WebUtility.HtmlDecode(Model.Content);
+   
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div  ng-app="ProjectUpdate" class="form-horizontal">
+        <h4>Create new project</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Slug, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Summary, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Summary, new { @class = "form-control", @rows = 3 })
+                @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageThumbUrl, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ImageThumbUrl, new SelectList(ViewBag.ThumbList, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ImageThumbUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @rows = 15 })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div ng-controller="ProjectUpdateCategoryController" class="form-group">
+            @Html.LabelFor(model => model.Categories, new { @class = "control-label col-md-2" })
+            <div class="col-sm-10">
+
+                <label class="checkbox-inline" ng-repeat="(key, projectCategory) in projectCategories">
+                    <input type="checkbox" name="categories[]" value="{{ projectCategory.Id }}" ng-checked="projectCategory.Assigned">
+                    {{ projectCategory.Name }}
+                </label>
+                <div class="input-group margin-top-l">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="addProjectCategory()">Add Category</button>
+                    </span>
+                    <input type="text" id="Categories" class="form-control" ng-change="validProjectCategory(false)" ng-model="newProjectCategory">
+                </div>
+                <span ng-if="projectCategoryValidationMessage" class="text-danger field-validation-error">
+                    <span>{{ projectCategoryValidationMessage }}</span>
+                </span>
+            </div>
+        </div>
+
+        <div ng-controller="ProjectUpdateTagController" class="form-group">
+            @Html.LabelFor(model => model.Tags, new { @class = "control-label col-md-2" })
+            <div class="col-sm-10">
+                <label class="checkbox-inline" ng-repeat="(key, tag) in tags">
+                    <input type="checkbox" name="tags[]" value="{{ tag.Id }}" ng-checked="tag.Assigned">
+                    {{ tag.Name }}
+                </label>
+                <div class="input-group margin-top-l">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="addTag()">Add Tag</button>
+                    </span>
+                    <input type="text" id="Tags" class="form-control" ng-change="validTag(false)" ng-model="newTag">
+                </div>
+                <span ng-if="tagValidationMessage" class="text-danger field-validation-error">
+                    <span class="">{{ tagValidationMessage }}</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+          
+            @Html.LabelFor(model => model.Status, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @foreach (ProjectModel.ProjectStatus status in Enum.GetValues(typeof(ProjectModel.ProjectStatus)))
+                {
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(model => model.Status, status, new { name = "Status", id = string.Format("Status-{0}", status) }) @status.ToString()
+                        </label>
+                    </div>
+                }
+                @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts
+{
+    <script src="../../Content/Scripts/Project/ProjectUpdate.js"></script>
+}

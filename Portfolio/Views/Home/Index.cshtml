@@ -1,0 +1,64 @@
+﻿@using Portfolio.Models
+@model Portfolio.ViewModels.HomeIndexViewModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<h2>Latest projects</h2>
+
+@foreach (ProjectModel projectModel in Model.LatestProjects)
+{
+    <div class="row latest-projects">
+        <div class="col-md-4">
+            <a href="@Url.Action("Details", "Project", new { @projectModel.Slug })">
+                <img src="@projectModel.ImageThumbUrl" class="img-responsive latest-img" alt="@projectModel.Title" />
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h3>@projectModel.Title</h3>
+            <p>
+                @foreach (var tag in projectModel.Tags)
+                {
+                    <span class="label label-default">
+                        @tag.Name
+                    </span>
+                }
+            </p>
+            <p>
+                @projectModel.Summary
+            </p>
+            <p>
+                <a href="@Url.Action("Details", "Project", new {projectModel.Slug})" class="btn btn-default">
+                    View project
+                </a>
+            </p>
+        </div>
+    </div>
+}
+        
+<h2>Featured projects</h2>
+<div class="row featured-project">
+    @foreach (ProjectModel projectModel in Model.FeaturedProjects)
+    {
+        <div class="col-md-4">
+            <a href="@Url.Action("Details", "Project", new { projectModel.Slug })">
+                <img src="@projectModel.ImageThumbUrl" class="img-responsive featured-img" alt="@projectModel.Title" />
+            </a>
+            <h3>@projectModel.Title</h3>
+            <p>
+                @foreach (var tag in projectModel.Tags)
+                {
+                    <span class="label label-default">
+                        @tag.Name
+                    </span>
+                }
+            </p>
+            <p>@projectModel.Summary</p>
+            
+            <a href="@Url.Action("Details", "Project", new {projectModel.Slug})" class="btn btn-default">
+                View project
+            </a>
+        </div>
+    }
+</div>
+

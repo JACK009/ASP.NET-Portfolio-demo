@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("~/Views/Shared/_Head.cshtml")
+<body>
+    @Html.Partial("~/Views/Shared/_Navbar.cshtml")
+    <div class="container">
+        @RenderBody()
+        <hr />
+    </div>
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+
+    @Scripts.Render("~/Content/javascript")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

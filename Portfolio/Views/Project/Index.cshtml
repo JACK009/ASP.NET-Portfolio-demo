@@ -1,0 +1,95 @@
+﻿@model Portfolio.ViewModels.ProjectIndexViewModel
+@using System.Globalization
+@using PagedList
+@using PagedList.Mvc;
+@using Portfolio.Helpers;
+
+@{
+    ViewBag.Title = "Projects";
+    var pagedList = (IPagedList)Model.PagedList;
+}
+
+<h2>All projects</h2>
+<br/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-8">
+                @using (Html.BeginForm("Index", "Project", FormMethod.Get, new {@class = "form-inline"}))
+                {
+                    <div class="form-group">
+                        <label for="Search">Find by title:</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Search" class="sr-only">Search</label>
+                        @Html.TextBox("Search", Model.CurrentSearch as string, new {@class = "form-control", placeholder = "Search"})
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                }        
+            </div>
+            <div class="col-md-4">
+                @Html.ActionLink("Create New", "Create", null, new {@class = "btn btn-primary pull-right"})
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped projects-table">
+    <thead>
+    <tr>
+        <th></th>
+        <th>
+            @Html.ActionLink("Title", "Index", new {sort = Model.TitleSort, currentSearch = Model.CurrentSearch})
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.PagedList.FirstOrDefault().Slug)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.PagedList.FirstOrDefault().Status)
+        </th>
+        <th>
+            @Html.ActionLink("Created at", "Index", new {sort = Model.CreatedAtSort, currentSearch = Model.CurrentSearch})
+        </th>
+        <th>
+            @Html.ActionLink("Updated at", "Index", new {sort = Model.UpdatedAtSortParam, currentSearch = Model.CurrentSearch})
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var projectModel in Model.PagedList)
+        {
+            <tr>
+                <td>
+                    <img src="@projectModel.ImageThumbUrl" class="img-responsive" alt="@projectModel.Title" />
+                </td>
+                <td>
+                    @Html.DisplayName(projectModel.Title)
+                </td>
+                <td>
+                    @Html.DisplayName(projectModel.Slug)
+                </td>
+                <td>
+                    @StatusHtmlHelper.CreateStatus(projectModel)
+                </td>
+                <td>
+                    @Html.DisplayName(projectModel.CreatedAt.ToString(CultureInfo.InvariantCulture))
+                </td>
+                <td>
+                    @Html.DisplayName(projectModel.UpdatedAt.ToString(CultureInfo.InvariantCulture))
+                </td>
+                <td class="table-actions">
+                    @Html.ActionLink("Edit", "Edit", new {id = projectModel.Id}) |
+                    @Html.ActionLink("Details", "Details", new {id = projectModel.Id}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = projectModel.Id})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
+@Html.PagedListPager(pagedList, page => Url.Action("Index",
+    new { page, sort = Model.CurrentSort, currentSearch = Model.CurrentSearch }))

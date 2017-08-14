@@ -1,0 +1,49 @@
+﻿@model Portfolio.ViewModels.EmailFormViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <h1>Contact me</h1>
+        <p>
+            Questions? Fill in this form and I will contact you.
+        </p>
+
+        @if (Model.MessageSent)
+        {
+            <div class="alert alert-success" role="alert">Your message has been sent.</div>
+        }
+
+        @using (Html.BeginForm("Contact", "Home"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmailModel.FromName)
+                @Html.TextBoxFor(m => m.EmailModel.FromName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EmailModel.FromName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmailModel.FromEmail)
+                @Html.TextBoxFor(m => m.EmailModel.FromEmail, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EmailModel.FromEmail, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmailModel.Message)
+                @Html.TextAreaFor(m => m.EmailModel.Message, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EmailModel.Message, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-default">Send message</button>
+        }
+
+    </div>
+    <div class="col-md-6">
+        <h1>About me</h1>
+        <p>
+            Hi, I'm a developer who lives in Belgium. I studied graphics and digital media at Artevelde Hogeschool.
+        </p>
+        <p>
+            Besides programming I also like the designing part of a website. In my free time I'm working in the Unity game engine (C#) and PHP.
+        </p>
+    </div>
+</div>

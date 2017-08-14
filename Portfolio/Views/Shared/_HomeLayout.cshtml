@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("~/Views/Shared/_Head.cshtml")
+<body>
+    @Html.Partial("~/Views/Shared/_Navbar.cshtml")
+    <div class="jumbotron jumbotron-home">
+        <div class="jumbotron-bg"></div>
+        <div class="container">
+            <h1>My projects</h1>
+            <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <p><a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Project")" role="button">View all of my projects</a></p>
+        </div>
+    </div>
+    <div class="container">
+        @RenderBody()
+        <hr />
+    </div>
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+
+    @Scripts.Render("~/Content/javascript")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

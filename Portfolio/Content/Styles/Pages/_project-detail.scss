@@ -1,0 +1,10 @@
+﻿.sidebar {
+    margin-top: $spacing-xxl;
+    background: whitesmoke;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .sidebar-content {
+        padding: $spacing-l;
+    }
+}
