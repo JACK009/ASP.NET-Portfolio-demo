@@ -62,6 +62,6 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-portfolio/Content/Scripts/* linguist-vendored
-portfolio/Content/Scripts/Project/* linguist-vendored=false
+Portfolio/Content/Scripts/* linguist-vendored
+Portfolio/Content/Scripts/Project/* linguist-vendored=false
 
