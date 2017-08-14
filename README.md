@@ -4,7 +4,7 @@
 - - - -
 ### Gebruikte technologie ###
 * ASP.NET MVC (MVVM)
-* Entity framework (Code-First) met Fluent API en LINQ extenstion methods
+* Entity framework (Code-First) met Data Annontations en LINQ extenstion methods
 * Migrations
 * Repository pattern
 * AngularJS
